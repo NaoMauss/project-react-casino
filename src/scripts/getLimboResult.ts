@@ -4,8 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 const e: number = 2 ** 52;
 const salt: string = uuidv4();
 
-const getResult = (game_hash = uuidv4()): number => {
-  const hm = createHmac("sha256", game_hash);
+const getLimboResult = (game_hash=uuidv4()): number => {
+  const hm = createHmac('sha256', game_hash);
   hm.update(salt);
   const h = hm.digest("hex");
   if (parseInt(h, 16) % 33 === 0) {
@@ -16,4 +16,10 @@ const getResult = (game_hash = uuidv4()): number => {
   return parseFloat(result.toFixed(2));
 };
 
-export { getResult };
+
+const getDiceResult = (): number => {
+    return Math.floor(Math.random() * 100) + 1;
+}
+
+
+export { getLimboResult, getDiceResult }

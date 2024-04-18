@@ -5,9 +5,10 @@ import { Button, Grid, Stack, TextField, Typography } from "@mui/material";
 
 // Importation des composants et des hooks personnalisés
 import Header from "@/component/Header";
+import { getInfoFromDb, getBalance, updateBalance } from "@/firebase";
+import ChatInterface from "@/component/ChatInterface";
 import { useAuthState } from "@/hooks/auth";
-import { getBalance, updateBalance } from "@/firebase";
-import { getResult } from "@/scripts/getLimboResult";
+import { getLimboResult } from "@/scripts/getLimboResult";
 
 const Limbo = () => {
   const { user, loading } = useAuthState();
@@ -15,7 +16,7 @@ const Limbo = () => {
   const [balance, setBalance] = useState(100); // Initialiser la balance
   const [betAmount, setBetAmount] = useState(""); // Montant du pari initial comme chaîne
   const [targetMultiplier, setTargetMultiplier] = useState("2"); // Multiplicateur cible initial comme chaîne
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState(0);
 
   useEffect(() => {
     if (!user && !loading) {
@@ -26,7 +27,7 @@ const Limbo = () => {
   }, [user, loading]);
 
   const handleBetResult = async () => {
-    const gameResult = await getResult();
+    const gameResult = getLimboResult();
     setResult(gameResult);
     const numericBetAmount = Number(betAmount) || 0;
     const numericMultiplier = Number(targetMultiplier) || 1;
@@ -35,6 +36,7 @@ const Limbo = () => {
         ? balance - numericBetAmount
         : balance + numericBetAmount * numericMultiplier;
     setBalance(newBalance);
+    await updateBalance(newBalance);
   };
 
   if (loading) {
@@ -140,6 +142,7 @@ const Limbo = () => {
           </Stack>
         </Grid>
       </Grid>
+      <ChatInterface />
     </>
   );
 };
