@@ -171,10 +171,9 @@ const updateBalance = async (amount) => {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const currentData = docSnap.data();
-      const newBalance = (currentData.balance || 0) + amount; // Handle cases where balance might be undefined
-      await setDoc(docRef, { balance: newBalance }, { merge: true });
-      console.log("Updated balance to:", newBalance);
-      return newBalance; // Return the updated balance
+      await setDoc(docRef, { balance: amount }, { merge: true });
+      console.log("Updated balance to:", amount);
+      return amount; // Return the updated balance
     } else {
       console.log("No such document exists to update.");
       return "No such document";

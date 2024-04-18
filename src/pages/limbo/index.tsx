@@ -36,6 +36,7 @@ const Limbo = () => {
         ? balance - numericBetAmount
         : balance + numericBetAmount * numericMultiplier;
     setBalance(newBalance);
+    await updateBalance(newBalance);
   };
 
   if (loading) {
