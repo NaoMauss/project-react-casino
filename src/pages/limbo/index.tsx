@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import Header from "@/component/Header";
 import { getInfoFromDb, getBalance, updateBalance } from "@/firebase";
 import { Button, Grid, Stack, TextField } from "@mui/material";
+import Chatbot from "@/component/Chatbot";
+import ChatInterface from "@/component/ChatInterface";
 
 const Limbo = () => {
     const { user, loading } = useAuthState();
@@ -71,6 +73,7 @@ const Limbo = () => {
           </Grid>
         </Grid>
       </Grid>
+      <ChatInterface />
     </>
   );
 };

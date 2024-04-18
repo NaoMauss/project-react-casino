@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 const e: number = 2 ** 52;
 const salt: string = uuidv4();
 
-const getResult = (game_hash=uuidv4()): number => {
+const getLimboResult = (game_hash=uuidv4()): number => {
   const hm = createHmac('sha256', game_hash);
   hm.update(salt);
   const h = hm.digest('hex');
@@ -15,4 +15,10 @@ const getResult = (game_hash=uuidv4()): number => {
   return (((100 * e) - hSubstring)/(e - hSubstring)) / 100;
 }
 
-export { getResult }
+
+const getDiceResult = (): number => {
+    return Math.floor(Math.random() * 100) + 1;
+}
+
+
+export { getLimboResult, getDiceResult }
