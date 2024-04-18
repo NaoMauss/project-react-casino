@@ -10,12 +10,12 @@ interface IMessage {
 
 interface IChatflow {
     [key: string]: {
-        buttons: string[];
+        buttons: string[] | [];
         answer: string;
     };
 }
 
-const Chatflow = {
+const Chatflow: IChatflow = {
     "Accueil": {
       "buttons": ["Problèmes de compte", "Dépôts et retraits", "Jeux", "Support technique"],
       "answer": "Bonjour, comment puis-je vous aider ?"
@@ -116,7 +116,7 @@ export default function ChatInterface() {
                 {isOpen ? 'Close' : 'Chat'}
             </button>
             {isOpen && (
-                <div style={{ width: '25%', position: 'fixed', right: '20px', bottom: '20px', backgroundColor: 'white', borderRadius: '10px', fontSize: '0.3rem'}}>
+                <div style={{ width: '300px', position: 'fixed', right: '20px', bottom: '20px', backgroundColor: 'white', borderRadius: '10px', fontSize: '0.3rem'}}>
                     <Paper style={{ height: '50vh', overflow: 'auto', padding: '20px', backgroundColor: 'white' }}>
                         <List>
                             {messages.map((message, index) => (
