@@ -8,8 +8,8 @@ import { getInfoFromDb, getBalance, updateBalance } from "@/firebase";
 
 const Limbo = () => {
     const { user, loading } = useAuthState();
-    const [userInfo, setUserInfo] = useState(null);
-    const [dbInfo, setDbInfo] = useState(null);
+    const [userInfo, setUserInfo] = useState<string>("");
+    const [dbInfo, setDbInfo] = useState<string>("");
     const [balance, setBalance] = useState<number>(0);
     const router = useRouter();
 
