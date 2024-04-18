@@ -1,0 +1,17 @@
+/* src/styles/Header.module.css */
+.header {
+    background-color: #f8f9fa;
+    padding: 1rem;
+  }
+  
+  .header ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .header a {
+    color: #0070f3;
+    text-decoration: none;
+  }

@@ -4,6 +4,7 @@ import { faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from "@/styles/Login.module.css";
 import { useAuthState } from "@/hooks/auth";
+import Header from "@/component/Header";
 
 
 const Login = () => {
@@ -13,11 +14,13 @@ const Login = () => {
     }
 
     return (
-        <div className={styles.page}>
-            <h1>Connect with Google</h1>
-            <button onClick={signInWithGoogle} className={styles.googleButton}> <FontAwesomeIcon icon={faArrowRightToBracket}/> <FontAwesomeIcon icon={faGoogle}/> </button>
-
-        </div>
+        <>
+            <Header />
+            <div className={styles.page}>
+                <h1>Connect with Google</h1>
+                <button onClick={signInWithGoogle} className={styles.googleButton}> <FontAwesomeIcon icon={faArrowRightToBracket}/> <FontAwesomeIcon icon={faGoogle}/> </button>
+            </div>
+        </>
     );
 };
 
