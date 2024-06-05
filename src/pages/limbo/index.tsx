@@ -1,5 +1,5 @@
 // Importation des modules nécessaires
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Button, Grid, Stack, TextField, Typography } from "@mui/material";
 
@@ -43,11 +43,11 @@ const Limbo = () => {
     return <Typography variant="h1">Loading...</Typography>;
   }
 
-  const handleBetAmountChange = (event) => {
+  const handleBetAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setBetAmount(event.target.value);
   };
 
-  const handleMultiplierChange = (event) => {
+  const handleMultiplierChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTargetMultiplier(event.target.value);
   };
 

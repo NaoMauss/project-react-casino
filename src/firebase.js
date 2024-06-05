@@ -1,9 +1,5 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-// auth
 import { getAuth, GoogleAuthProvider, signInWithPopup, setPersistence, browserLocalPersistence } from "firebase/auth";
 import { doc, setDoc, getFirestore, addDoc, getDoc, collection } from "firebase/firestore";
 
@@ -108,6 +104,7 @@ const addDataToDb = async () => {
       email: user.email,
       photoURL: user.photoURL,
       balance: 1000,
+      history: [],
     };
 
     const userRef = doc(db, "users", uid);
@@ -138,22 +135,43 @@ const getBalance = async () => {
     const data = docSnap.data();
     console.log("Inside getBalance: ", data.balance);
 
-    // if (!data.balance) {
-    //   await setDoc(docRef, { balance: 1000 }, { merge: true });
-    //   return 1000;
-    // }
-
     const balance = data.balance;
     return balance;
   } else {
-    // doc.data() will be undefined in this case
     console.log("No such document!");
+  }
+}
+
+const getHistory = async () => {
+  const auth = getAuth(app);
+  const user = auth.currentUser;
+
+  if (!user) {
+    return;
+  }
+
+  const uid = user.uid;
+  const docRef = doc(db, "users", uid);
+  const docSnap = await getDoc(docRef);
+  if (!db) {
+    return("db is not defined")
+  }
+
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+    const data = docSnap.data();
+    console.log("Inside getBalance: ", data.history);
+
+    const history = data.history;
+    return history;
   }
 }
 
 const updateBalance = async (amount) => {
   const auth = getAuth(app);
   const user = auth.currentUser;
+  const history = await getHistory();
+  const balance = await getBalance();
 
   if (!user) {
     console.error("No user logged in.");
@@ -171,16 +189,19 @@ const updateBalance = async (amount) => {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const currentData = docSnap.data();
-      await setDoc(docRef, { balance: amount }, { merge: true });
+      const currentDate = new Date();
+      const currentDateWithHours = `${currentDate.getDate()}/${currentDate.getMonth()}/${currentDate.getFullYear()} ${currentDate.getHours()}:${currentDate.getMinutes()}`;
+      const newHistory = [...history, { amount: (balance - amount), currentDateWithHours }];
+      await setDoc(docRef, { balance: amount, history: newHistory }, { merge: true });
       console.log("Updated balance to:", amount);
-      return amount; // Return the updated balance
+      return amount;
     } else {
       console.log("No such document exists to update.");
       return "No such document";
     }
   } catch (error) {
     console.error("Failed to update balance:", error);
-    return error.message; // Provide error message back to caller
+    return error.message;
   }
 }
 
