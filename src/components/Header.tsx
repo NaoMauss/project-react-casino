@@ -42,11 +42,7 @@ export default function Header() {
   }, [loading, user]);
 
   if (loading) {
-    return (
-      <div>
-        <Typography variant="h1">Loading...</Typography>
-      </div>
-    );
+    return <Typography variant="h1">Loading...</Typography>;
   }
 
   const handleBalance = async () => {
@@ -77,7 +73,7 @@ export default function Header() {
               </Button>
             </Typography>
             <Box sx={{background: 'white', padding:'8px', borderRadius:'8px'}}>
-              <Typography color="black">Balance: {parseInt(`${balance}`)}</Typography>
+              <Typography color="black">Balance: {parseInt(`${balance}`) ?? 1000}</Typography>
             </Box>
             {userInfo ? (
               <Button color="inherit" onClick={signOut}>

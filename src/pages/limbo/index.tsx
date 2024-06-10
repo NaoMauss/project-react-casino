@@ -42,7 +42,7 @@ const Limbo = () => {
   };
 
   if (loading) {
-    return <Typography variant="h1">Loading...</Typography>;
+    return;
   }
 
   const handleBetAmountChange = (
@@ -61,11 +61,6 @@ const Limbo = () => {
 
   return (
     <>
-      <Typography
-        variant="h2"
-        align="center"
-        sx={{ mb: 4 }}
-      >{`Balance: ${balance}`}</Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ p: 4, bgcolor: "rgb(33, 55, 67)" }}>
