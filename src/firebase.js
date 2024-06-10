@@ -142,6 +142,12 @@ const getBalance = async () => {
     }
 
     const balance = data.balance;
+
+    if (!balance) {
+      // add balance
+      await setDoc(docRef, { balance: 1000 }, { merge: true });
+      return 1000;
+    }
     return balance;
   } else {
     console.log("No such document!");

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -18,6 +18,8 @@ import {
 } from "@mui/material/styles";
 import useBalanceStore from "@/store/balance";
 import { updateBalance } from "@/firebase";
+import { useAuthState } from "@/hooks/auth";
+import { useRouter } from "next/router";
 
 interface CustomSliderProps {
   winRange: number;
@@ -103,11 +105,25 @@ const DiceIndicator = styled(Box)<{ indicatorPosition: number }>(
 );
 
 const DiceGame: React.FC = () => {
+  const { user, loading } = useAuthState();
+  const router = useRouter();
   const [betAmount, setBetAmount] = useState<string>("");
   const [winRange, setWinRange] = useState<number>(50);
   const [result, setResult] = useState<string>("");
   const [diceRoll, setDiceRoll] = useState<number | null>(null);
   const { balance, setBalance } = useBalanceStore();
+
+  useEffect(() => {
+    if (!user && !loading) {
+      router.push("/login");
+    }
+  }, [user, loading]);
+
+  if (loading) {
+    return;
+  }
+
+
 
   const rollDice = async () => {
     const roll = Math.floor(Math.random() * 100) + 1;
