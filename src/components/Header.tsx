@@ -73,7 +73,7 @@ export default function Header() {
               </Button>
             </Typography>
             <Box sx={{background: 'white', padding:'8px', borderRadius:'8px'}}>
-              <Typography color="black">Balance: {parseInt(`${balance}`) ?? 1000}</Typography>
+              <Typography color="black">Balance: {balance ? parseInt(`${balance}`) : 1000}</Typography>
             </Box>
             {userInfo ? (
               <Button color="inherit" onClick={signOut}>
