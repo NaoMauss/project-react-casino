@@ -129,6 +129,13 @@ const DiceGame: React.FC = () => {
     const roll = Math.floor(Math.random() * 100) + 1;
     const payout = 100/ winRange;
     setDiceRoll(roll);
+    if (winRange === 100) {
+      setResult("Gagné! Le dé a roulé: 100");
+      const newBalance = balance;
+      setBalance(newBalance);
+      await updateBalance(newBalance, "dice");
+      return;
+    }
     if (roll <= winRange) {
       setResult(`Gagné! Le dé a roulé: ${roll}`);
       const newBalance = balance + Number(betAmount) * payout;
