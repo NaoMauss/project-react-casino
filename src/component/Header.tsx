@@ -50,6 +50,9 @@ export default function Header() {
                             <Link href="/dice" passHref>
                                 <Button color="inherit">Dice</Button>
                             </Link>
+                            <Link href="/history" passHref>
+                                <Button color="inherit">History</Button>
+                            </Link>
                             <Button color="inherit" onClick={() => updateBalance(balance + 10000)}>
                                 Add Balance
                             </Button>
