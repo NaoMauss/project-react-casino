@@ -29,6 +29,9 @@ const Limbo = () => {
   }, [user, loading]);
 
   const handleBetResult = async () => {
+    if (Number(betAmount) > balance || Number(betAmount) === 0) {
+      return;
+    }
     const gameResult = getLimboResult();
     setResult(gameResult);
     const numericBetAmount = Number(betAmount) || 0;

@@ -129,6 +129,10 @@ const DiceGame: React.FC = () => {
     const roll = Math.floor(Math.random() * 100) + 1;
     const payout = 100/ winRange;
     setDiceRoll(roll);
+    if (balance < Number(betAmount)) {
+      setResult("Solde insuffisant");
+      return;
+    }
     if (winRange === 100) {
       setResult("Gagné! Le dé a roulé: 100");
       const newBalance = balance;
