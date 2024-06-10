@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { Button, Grid, Stack, TextField, Typography } from "@mui/material";
 
 // Importation des composants et des hooks personnalisés
-import Header from "@/component/Header";
 import { getInfoFromDb, getBalance, updateBalance } from "@/firebase";
 import ChatInterface from "@/component/ChatInterface";
 import { useAuthState } from "@/hooks/auth";
@@ -13,7 +12,7 @@ import { getLimboResult } from "@/scripts/getLimboResult";
 const Limbo = () => {
   const { user, loading } = useAuthState();
   const router = useRouter();
-  const [balance, setBalance] = useState(100); // Initialiser la balance
+  const [balance, setBalance] = useState(0); // Initialiser la balance
   const [betAmount, setBetAmount] = useState(""); // Montant du pari initial comme chaîne
   const [targetMultiplier, setTargetMultiplier] = useState("2"); // Multiplicateur cible initial comme chaîne
   const [result, setResult] = useState(0);
@@ -56,7 +55,6 @@ const Limbo = () => {
 
   return (
     <>
-      <Header />
       <Typography variant="h1">{`Balance: ${balance}`}</Typography>
       <Grid container spacing={2}>
         <Grid item xs={6} sx={{ height: "100%" }}>

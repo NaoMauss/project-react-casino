@@ -1,69 +1,71 @@
 import Link from 'next/link';
-import styles from '@/styles/Header.module.css';
 import { useAuthState } from "@/hooks/auth";
 import { useEffect, useState } from "react";
-import { signOut, addDataToDb, db, updateBalance, getBalance } from '@/firebase'
+import { signOut, addDataToDb, db, updateBalance, getBalance } from '@/firebase';
+import { AppBar, Toolbar, Button, Typography, Container } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#490648',
+        },
+    },
+});
 
 export default function Header() {
-
     const { user, loading } = useAuthState();
     const [userInfo, setUserInfo] = useState(null);
     const [balance, setBalance] = useState(100);
 
-    useEffect (() => {
+    useEffect(() => {
         if (!user && !loading) {
-            console.log(user)
+            console.log(user);
         }
         setUserInfo(user);
-        addDataToDb()
-        getBalance().then(setBalance)
+        addDataToDb();
+        getBalance().then(setBalance);
     }, [loading, user]);
 
     if (loading) {
         return (
             <div>
-                <h1>Loading...</h1>
+                <Typography variant="h1">Loading...</Typography>
             </div>
         );
     }
 
     return (
-        <header className={styles.header}>
-            <nav>
-                <ul>
-                    <li>
-                        <Link href="/">
-                            Home
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/limbo">
-                            Limbo
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/dice">
-                            Dice
-                        </Link>
-                    </li>
-                    <button onClick={() => updateBalance(balance + 10000)}>
-                        add Balance
-                    </button>
-                    {userInfo ? (
-                    <li>
-                        <button onClick={signOut}>
-                            Sign Out
-                        </button>
-                    </li>
-                    ) : (
-                    <li>
-                        <Link href="/login">
-                            Login
-                        </Link>
-                    </li>
-                )}
-                </ul>
-            </nav>
-        </header>
+        <ThemeProvider theme={theme}>
+            <AppBar position="static" color="primary">
+                <Container>
+                    <Toolbar>
+                        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+                            <Link href="/" passHref>
+                                <Button color="inherit">Home</Button>
+                            </Link>
+                            <Link href="/limbo" passHref>
+                                <Button color="inherit">Limbo</Button>
+                            </Link>
+                            <Link href="/dice" passHref>
+                                <Button color="inherit">Dice</Button>
+                            </Link>
+                            <Button color="inherit" onClick={() => updateBalance(balance + 10000)}>
+                                Add Balance
+                            </Button>
+                        </Typography>
+                        {userInfo ? (
+                            <Button color="inherit" onClick={signOut}>
+                                Sign Out
+                            </Button>
+                        ) : (
+                            <Link href="/login" passHref>
+                                <Button color="inherit">Login</Button>
+                            </Link>
+                        )}
+                    </Toolbar>
+                </Container>
+            </AppBar>
+        </ThemeProvider>
     );
 }
