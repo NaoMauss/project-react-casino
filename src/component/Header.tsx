@@ -2,12 +2,13 @@ import Link from 'next/link';
 import styles from '@/styles/Header.module.css';
 import { useAuthState } from "@/hooks/auth";
 import { useEffect, useState } from "react";
-import { signOut, addDataToDb, db } from '@/firebase'
+import { signOut, addDataToDb, db, updateBalance, getBalance } from '@/firebase'
 
 export default function Header() {
 
     const { user, loading } = useAuthState();
     const [userInfo, setUserInfo] = useState(null);
+    const [balance, setBalance] = useState(100);
 
     useEffect (() => {
         if (!user && !loading) {
@@ -15,6 +16,7 @@ export default function Header() {
         }
         setUserInfo(user);
         addDataToDb()
+        getBalance().then(setBalance)
     }, [loading, user]);
 
     if (loading) {
@@ -39,6 +41,14 @@ export default function Header() {
                             Limbo
                         </Link>
                     </li>
+                    <li>
+                        <Link href="/dice">
+                            Dice
+                        </Link>
+                    </li>
+                    <button onClick={() => updateBalance(balance + 10000)}>
+                        add Balance
+                    </button>
                     {userInfo ? (
                     <li>
                         <button onClick={signOut}>
