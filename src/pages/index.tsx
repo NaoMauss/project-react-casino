@@ -17,9 +17,8 @@ export default function Home() {
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
         <div className={styles.description}>
-            This is the main page.
+        This is a fun and interactive casino game built with React. Here, you can roll dice, chat with other players, and more. Enjoy the game and remember to play responsibly!
         </div>
-        {/* Button to redirect to /limbo */}
       </main>
     </>
   );
