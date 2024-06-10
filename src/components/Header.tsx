@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { signOut, addDataToDb, db, updateBalance, getBalance } from '@/firebase';
 import { AppBar, Toolbar, Button, Typography, Container } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import useBalanceStore from '@/store/balance';
 
 const theme = createTheme({
     palette: {
@@ -16,7 +17,7 @@ const theme = createTheme({
 export default function Header() {
     const { user, loading } = useAuthState();
     const [userInfo, setUserInfo] = useState(null);
-    const [balance, setBalance] = useState(100);
+    const { balance, setBalance } = useBalanceStore();
 
     useEffect(() => {
         if (!user && !loading) {
@@ -33,6 +34,11 @@ export default function Header() {
                 <Typography variant="h1">Loading...</Typography>
             </div>
         );
+    }
+
+    const handleBalance = async () => {
+        await updateBalance(balance + 10000, "manual");
+        setBalance(balance + 10000);
     }
 
     return (
@@ -53,9 +59,10 @@ export default function Header() {
                             <Link href="/history" passHref>
                                 <Button color="inherit">History</Button>
                             </Link>
-                            <Button color="inherit" onClick={() => updateBalance(balance + 10000)}>
+                            <Button color="inherit" onClick={handleBalance}>
                                 Add Balance
                             </Button>
+                            <p>{parseInt(`${balance}`)}</p>
                         </Typography>
                         {userInfo ? (
                             <Button color="inherit" onClick={signOut}>

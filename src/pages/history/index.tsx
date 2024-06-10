@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { getHistory } from '@/firebase';
-import { Box, Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Box, Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Tab } from '@mui/material';
 
 interface IHistoryItem {
   amount: number;
   currentDateWithHours: string;
+  game: string;
+  balance: number;
 }
 
 const HistoryPage: React.FC = () => {
@@ -14,7 +16,8 @@ const HistoryPage: React.FC = () => {
     const fetchHistory = async () => {
       const historyData = await getHistory();
       if (historyData) {
-        setHistory(historyData);
+        const reversedHistory = historyData.reverse();
+        setHistory(reversedHistory);
       }
     };
 
@@ -33,6 +36,8 @@ const HistoryPage: React.FC = () => {
               <TableRow>
                 <TableCell>Date</TableCell>
                 <TableCell align="right">Amount</TableCell>
+                <TableCell align="right">Game</TableCell>
+                <TableCell align="right">Balance</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -41,7 +46,9 @@ const HistoryPage: React.FC = () => {
                   <TableCell component="th" scope="row">
                     {item.currentDateWithHours}
                   </TableCell>
-                  <TableCell align="right">{item.amount}</TableCell>
+                  <TableCell align="right" >{item.amount}</TableCell>
+                  <TableCell align="right">{item.game}</TableCell>
+                  <TableCell align="right">{item.balance}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

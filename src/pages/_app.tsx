@@ -1,5 +1,5 @@
-import ChatInterface from "@/component/ChatInterface";
-import Header from "@/component/Header";
+import ChatInterface from "@/components/ChatInterface";
+import Header from "@/components/Header";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 

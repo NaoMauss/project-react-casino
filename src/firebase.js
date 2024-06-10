@@ -173,7 +173,7 @@ const getHistory = async () => {
   }
 }
 
-const updateBalance = async (amount) => {
+const updateBalance = async (amount, game="") => {
   console.log("amout", amount)
   const auth = getAuth(app);
   const user = auth.currentUser;
@@ -199,7 +199,7 @@ const updateBalance = async (amount) => {
       const currentDate = new Date();
       const currentDateWithHours = `${currentDate.getDate()}/${currentDate.getMonth()}/${currentDate.getFullYear()} ${currentDate.getHours()}:${currentDate.getMinutes()}`;
       const gains = (balance > amount) ? - (balance - amount) : (balance - amount - (balance - amount)*2) 
-      const newHistory = [...history, { amount: (gains), currentDateWithHours }];
+      const newHistory = [...history, { amount: (gains), currentDateWithHours, balance, game }];
       await setDoc(docRef, { balance: amount, history: newHistory }, { merge: true });
       console.log("Updated balance to:", amount);
       return amount;

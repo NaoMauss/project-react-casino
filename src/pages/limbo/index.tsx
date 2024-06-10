@@ -9,14 +9,14 @@ import {
   Paper,
 } from "@mui/material";
 import { getBalance, updateBalance } from "@/firebase";
-import ChatInterface from "@/component/ChatInterface";
 import { useAuthState } from "@/hooks/auth";
 import { getLimboResult } from "@/scripts/getLimboResult";
+import useBalanceStore from '@/store/balance';
 
 const Limbo = () => {
   const { user, loading } = useAuthState();
   const router = useRouter();
-  const [balance, setBalance] = useState(0);
+  const { balance, setBalance } = useBalanceStore();
   const [betAmount, setBetAmount] = useState("");
   const [targetMultiplier, setTargetMultiplier] = useState("2");
   const [result, setResult] = useState(0);
@@ -26,8 +26,6 @@ const Limbo = () => {
     if (!user && !loading) {
       router.push("/login");
     }
-
-    getBalance().then(setBalance);
   }, [user, loading]);
 
   const handleBetResult = async () => {
@@ -39,8 +37,8 @@ const Limbo = () => {
       gameResult < numericMultiplier
         ? balance - numericBetAmount
         : balance + numericBetAmount * numericMultiplier;
+    await updateBalance(newBalance, "limbo");
     setBalance(newBalance);
-    await updateBalance(newBalance);
   };
 
   if (loading) {

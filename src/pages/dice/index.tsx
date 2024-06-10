@@ -16,6 +16,8 @@ import {
   styled,
   Theme,
 } from "@mui/material/styles";
+import useBalanceStore from "@/store/balance";
+import { updateBalance } from "@/firebase";
 
 interface CustomSliderProps {
   winRange: number;
@@ -105,14 +107,22 @@ const DiceGame: React.FC = () => {
   const [winRange, setWinRange] = useState<number>(50);
   const [result, setResult] = useState<string>("");
   const [diceRoll, setDiceRoll] = useState<number | null>(null);
+  const { balance, setBalance } = useBalanceStore();
 
-  const rollDice = () => {
+  const rollDice = async () => {
     const roll = Math.floor(Math.random() * 100) + 1;
+    const payout = 100/ winRange;
     setDiceRoll(roll);
     if (roll <= winRange) {
       setResult(`Gagné! Le dé a roulé: ${roll}`);
+      const newBalance = balance + Number(betAmount) * payout;
+      setBalance(newBalance);
+      await updateBalance(newBalance, "dice");
     } else {
       setResult(`Perdu! Le dé a roulé: ${roll}`);
+      const newBalance = balance - Number(betAmount);
+      setBalance(newBalance);
+      await updateBalance(newBalance, "dice");
     }
   };
 
