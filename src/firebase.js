@@ -135,6 +135,12 @@ const getBalance = async () => {
     const data = docSnap.data();
     console.log("Inside getBalance: ", data.balance);
 
+    //check if data has history
+    if (!data.history) {
+      // add history
+      await setDoc(docRef, { history: [] }, { merge: true });
+    }
+
     const balance = data.balance;
     return balance;
   } else {
@@ -168,6 +174,7 @@ const getHistory = async () => {
 }
 
 const updateBalance = async (amount) => {
+  console.log("amout", amount)
   const auth = getAuth(app);
   const user = auth.currentUser;
   const history = await getHistory();
@@ -191,7 +198,8 @@ const updateBalance = async (amount) => {
       const currentData = docSnap.data();
       const currentDate = new Date();
       const currentDateWithHours = `${currentDate.getDate()}/${currentDate.getMonth()}/${currentDate.getFullYear()} ${currentDate.getHours()}:${currentDate.getMinutes()}`;
-      const newHistory = [...history, { amount: (balance - amount), currentDateWithHours }];
+      const gains = (balance > amount) ? - (balance - amount) : (balance - amount - (balance - amount)*2) 
+      const newHistory = [...history, { amount: (gains), currentDateWithHours }];
       await setDoc(docRef, { balance: amount, history: newHistory }, { merge: true });
       console.log("Updated balance to:", amount);
       return amount;
@@ -207,4 +215,5 @@ const updateBalance = async (amount) => {
 
 
 
-export { app, db, auth, signInWithGoogle, signOut, checkAuth, getInfoFromDb, addDataToDb, getBalance, updateBalance };
+
+export { app, db, auth, signInWithGoogle, signOut, checkAuth, getInfoFromDb, addDataToDb, getBalance, updateBalance, getHistory };

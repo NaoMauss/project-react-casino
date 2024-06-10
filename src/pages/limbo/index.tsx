@@ -17,7 +17,8 @@ const Limbo = () => {
   const [betAmount, setBetAmount] = useState(""); // Montant du pari initial comme chaîne
   const [targetMultiplier, setTargetMultiplier] = useState("2"); // Multiplicateur cible initial comme chaîne
   const [result, setResult] = useState(0);
-
+  const color = (result > Number(targetMultiplier)) ? "green" : "red"
+  
   useEffect(() => {
     if (!user && !loading) {
       router.push("/login");
@@ -134,7 +135,7 @@ const Limbo = () => {
             bgcolor="rgb(19,33,45)"
           >
             <Typography
-              color="white"
+              color={color}
               sx={{ fontWeight: "700", fontSize: "64px" }}
             >
               {result}
