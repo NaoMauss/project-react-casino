@@ -1,4 +1,4 @@
-import { signInWithGoogle, checkAuth } from "@/firebase";
+import { signInWithGoogle } from "@/firebase";
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
